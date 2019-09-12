@@ -43,7 +43,7 @@ namespace AlgorithmsDataStructures2
         // в списке  vertex
         public void RemoveVertex(int v)
         {
-            if (vertex[v] != null)
+            if (IsInRange(v) && vertex[v] != null)
             {
                 for (int i = 0; i < max_vertex; i++)
                 {
@@ -57,14 +57,15 @@ namespace AlgorithmsDataStructures2
 
         public bool IsEdge(int v1, int v2)
         {
-            return m_adjacency[v1, v2] == 1 && m_adjacency[v2, v1] == 1;
+            if (IsInRange(v1, v2)) return m_adjacency[v1, v2] == 1 && m_adjacency[v2, v1] == 1;
+
             // true если есть ребро между вершинами v1 и v2
-            //return false;
+            return false;
         }
 
         public void AddEdge(int v1, int v2)
         {
-            if (vertex[v1] != null && vertex[v2] != null)
+            if (IsInRange(v1, v2) && vertex[v1] != null && vertex[v2] != null)
             {
                 m_adjacency[v1, v2] = 1;
                 m_adjacency[v2, v1] = 1;
@@ -74,12 +75,22 @@ namespace AlgorithmsDataStructures2
 
         public void RemoveEdge(int v1, int v2)
         {
-            if (vertex[v1] != null && vertex[v2] != null)
+            if (IsInRange(v1, v2) && vertex[v1] != null && vertex[v2] != null)
             {
                 m_adjacency[v1, v2] = 0;
                 m_adjacency[v2, v1] = 0;
             }
             // удаление ребра между вершинами v1 и v2
+        }
+
+        private bool IsInRange(int v)
+        {
+            return v < max_vertex;
+        }
+
+        private bool IsInRange(int a, int b)
+        {
+            return a < max_vertex && b < max_vertex;
         }
     }
 }
